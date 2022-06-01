@@ -18,50 +18,28 @@ db.once("open", () => {
 });
 
 
-const PaletteModel = require('./Model/Palette.modal');
-const User = require('./Model/User.modal');
-
 const UserRoutes = require('./Routes/user.routes');
 const UserPalettesRoutes = require('./Routes/userPalette.route');
 const DefaultRoutes = require('./Routes/palette.route');
 
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use((req,res,next)=>{
-console.log(req.url)
-next()
+app.use(express.urlencoded({ extended: true }))
+app.use((req, res, next) => {
+    console.log(req.url)
+    next()
 })
 
 app.get('/', (req, res) => {
-    res.cookie('name','color')
+    res.cookie('name', 'color')
     res.json({ name: 'kunal' });
 })
 
-app.use('/user', UserRoutes)
-app.use('/user/palette',UserPalettesRoutes)
-app.use('/default',DefaultRoutes)
-
-// app.get('/palette/all', async (req, res) => {
-//     try {
-//         let palettes = await PaletteModel.find({});
-//         res.json({
-//             success:true,
-//             message:'Palettes found.',
-//         data:palettes
-//         })
-//     } catch (e) {
-//         res.json({
-//             success: false,
-//             message: 'Something went wrong!',
-//             error: e
-//         });
-//     }
-// })
-
-
+app.use('/user', UserRoutes);
+app.use('/user/palette', UserPalettesRoutes);
+app.use('/default', DefaultRoutes);
 
 
 app.listen(3001, () => {
-    console.log('connected to port 3001')
-})
+    console.log('connected to port 3001');
+});

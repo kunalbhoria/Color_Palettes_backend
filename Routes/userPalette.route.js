@@ -7,7 +7,6 @@ const { verifyAccessToken } = require('../config/jwt')
 router.use((req, res, next) => {
     let authToken = req.headers.authorization
     if (authToken) {
-        console.log(authToken)
         let isVerified = verifyAccessToken(authToken);
         if (isVerified.success) {
             req.userId = isVerified.userId;
@@ -33,16 +32,13 @@ router.post('/all', async (req, res) => {
 router.post('/add', async (req, res) => {
     try {
         let userId = req.userId;
-        console.log('userrrrrrrrrrrrr',userId);
         let { paletteName, id, colors, emoji } = req.body;
-        console.log(req.body);
         const palette = new PaletteModel({ paletteName, id, colors, emoji, userId });
-        await palette.save()
-        console.log(palette)
-       return res.json({
+        await palette.save();
+        return res.json({
             success: true,
             message: 'Palette created.',
-            data: {palette}
+            data: { palette }
         })
     } catch (e) {
         console.log(e)
@@ -57,14 +53,12 @@ router.post('/add', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
     try {
         let userId = req.userId;
-        let { id} = req.params;
-        console.log('iddddddddddddd',id,userId);
+        let { id } = req.params;
         const palette = await PaletteModel.deleteOne({ id, userId });
-        console.log(palette)
-       return res.json({
+        return res.json({
             success: true,
             message: 'Palette deleted.',
-            data: {palette}
+            data: { palette }
         })
     } catch (e) {
         console.log(e)
